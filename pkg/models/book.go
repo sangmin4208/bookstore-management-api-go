@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/sangmin4208/bookstore-management-api-go/pkg/config"
 	"gorm.io/gorm"
 )
@@ -28,7 +30,8 @@ func (b *Book) CreateBook() (*Book, error) {
 	return b, nil
 }
 func (b *Book) UpdateBook() (*Book, error) {
-	result := db.UpdateColumns(b)
+	fmt.Println(*b)
+	result := db.Save(b)
 	if result.Error != nil {
 		return nil, result.Error
 	}

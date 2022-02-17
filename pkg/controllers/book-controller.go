@@ -25,8 +25,7 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, string(data))
 }
 func GetBook(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	bookId := vars["bookId"]
+	bookId := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(bookId)
 	if err != nil {
 		fmt.Fprintf(w, "Invalid book id")
@@ -64,7 +63,7 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
-	bookId := mux.Vars(r)["bookId"]
+	bookId := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(bookId)
 	if err != nil {
 		fmt.Fprintf(w, "Invalid book id")
@@ -86,7 +85,7 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateBook(w http.ResponseWriter, r *http.Request) {
-	bookId := mux.Vars(r)["bookId"]
+	bookId := mux.Vars(r)["id"]
 	id, err := strconv.Atoi(bookId)
 	if err != nil {
 		fmt.Fprintf(w, "Invalid book id")
@@ -101,15 +100,15 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if updateBook.Name != "" {
-		updateBook.Name = bookDetail.Name
+		bookDetail.Name = updateBook.Name
 	}
 	if updateBook.Author != "" {
-		updateBook.Author = bookDetail.Author
+		bookDetail.Author = updateBook.Author
 	}
 	if updateBook.Publication != "" {
-		updateBook.Publication = bookDetail.Publication
+		bookDetail.Publication = updateBook.Publication
 	}
-	b, err := updateBook.UpdateBook()
+	b, err := bookDetail.UpdateBook()
 	if err != nil {
 		fmt.Fprintf(w, "An error occurred while processing the request")
 		return
